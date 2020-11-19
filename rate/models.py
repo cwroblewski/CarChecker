@@ -17,7 +17,7 @@ class Rate(Registry):
     """Rate model."""
 
     car = models.ForeignKey(Car, on_delete=models.CASCADE)
-    rate = models.IntegerField(verbose_name='ocena uzytkowników', choices=RATES_CHOICES, null=True, blank=True)
+    rate = models.IntegerField(verbose_name='users rate', choices=RATES_CHOICES)
 
     def __str__(self):
-        return f'Samochód: {self.car}, Ocena: {self.rate}'
+        return f'Car: {self.car}, rate: {self.rate}'
