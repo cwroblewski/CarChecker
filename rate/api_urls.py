@@ -1,8 +1,8 @@
 from rest_framework.routers import DefaultRouter
-from .api_views import CarViewSet
+from rate.api_views import RateViewSet
 
 router = DefaultRouter()
-router.register(r'', CarViewSet, basename='Car')
+router.register(r'', RateViewSet, basename='Car')
 
 urlpatterns = [
 ]

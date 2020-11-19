@@ -18,9 +18,11 @@ from django.urls import (
     path,
     include
 )
-from cars import urls as cars_urls
+from cars import api_urls as cars_urls
+from rate import api_urls as rate_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('cars/', include(cars_urls))
+    path('cars/', include(cars_urls)),
+    path('rate/', include(rate_urls))
 ]
