@@ -1,16 +1,10 @@
-version: "3.7"
+version: '3.7'
 
 services:
-  db:
-    image: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      - POSTGRES_DB=carchecker_db
-      - POSTGRES_USER=applicant
-      - POSTGRES_PASSWORD=netguru
   web:
-    build: .
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
@@ -18,3 +12,11 @@ services:
       - "8000:8000"
     depends_on:
       - db
+  db:
+    image: postgres:12-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=carchecker_db
+      - POSTGRES_USER=applicant
+      - POSTGRES_PASSWORD=netguru
