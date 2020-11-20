@@ -19,10 +19,12 @@ from django.urls import (
     include
 )
 from cars import api_urls as cars_urls
+from cars.api_views import CarSortedBydPopularityView
 from rate import api_urls as rate_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cars/', include(cars_urls)),
-    path('rate/', include(rate_urls))
+    path('rate/', include(rate_urls)),
+    path('popular/', CarSortedBydPopularityView.as_view())
 ]
