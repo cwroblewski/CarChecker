@@ -1,24 +1,26 @@
+import json
 import requests
 
 
 class ExternalApiConnector:
 
-    def __init__(self, make, model):
+    def __init__(self, make, vehicle_model):
         self._url = 'https://vpic.nhtsa.dot.gov/api/'
-        self.make = make
-        self.model = model
+        self._make = make
+        self._vehicle_model = vehicle_model
 
-    def check_in_api_db(self):
-        """Metoda tworzy workspace w GeoServerze."""
+    def check_model_for_make(self):
+        response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json')
 
-        response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self.make}?format=json')
-
-        boolean = False
+        is_ok = False
 
         if not response.ok:
-            raise ValueError('Error: {response}'.format(response=response.text))
+            return is_ok
         else:
-            if self.model.lower() in [result['Model_Name'].lower() for result in response.json()['Results']]:
-                boolean = True
+            try:
+                if response.json()['Results'] and self._vehicle_model in [result['Model_Name'].lower() for result in response.json()['Results']]:
+                    is_ok = True
+                return is_ok
 
-            return boolean
+            except json.decoder.JSONDecodeError:
+                return is_ok

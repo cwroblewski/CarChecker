@@ -18,16 +18,25 @@ class CarViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post']
 
     def create(self, request, *args, **kwargs):
-        connector = ExternalApiConnector(make=self.request.POST.get('make'), model=self.request.POST.get('model'))
+        connector = ExternalApiConnector(make=str(self.request.POST.get('make')).lower(),
+                                         vehicle_model=str(self.request.POST.get('model')).lower())
 
-        if connector.check_in_api_db():
+        if connector.check_model_for_make() == status.HTTP_503_SERVICE_UNAVAILABLE:
+            return Response(status=status.HTTP_503_SERVICE_UNAVAILABLE, data={'error': 'External Api unavailable.'})
+
+        elif connector.check_model_for_make():
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+
         else:
             return Response(status=status.HTTP_404_NOT_FOUND, data={'error': 'Not found'})
+
+    def retrieve(self, request, *args, **kwargs):
+        response = {'detail': 'Retrieve not allowed.'}
+        return Response(response, status=status.HTTP_403_FORBIDDEN)
 
 
 class CarSortedBydPopularityView(ListAPIView):

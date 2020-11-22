@@ -26,5 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cars/', include(cars_urls)),
     path('rate/', include(rate_urls)),
-    path('popular/', CarSortedBydPopularityView.as_view())
+    path('popular/', CarSortedBydPopularityView.as_view(), name='popular_list')
 ]
