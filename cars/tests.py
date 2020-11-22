@@ -1,12 +1,9 @@
-from django.db.models import (
-    Count,
-    Sum
-)
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import (
     APITestCase,
 )
+
 from cars.models import Car
 from rate.models import Rate
 
@@ -138,5 +135,3 @@ class CarCheckApiTests(APITestCase):
 
         response = self.client.get(self.popular_url)
         self.assertEqual([rates_no['rates_no'] for rates_no in response.json()], [4, 3, 2])
-
-
