@@ -1,4 +1,5 @@
 import json
+
 import requests
 
 
@@ -12,15 +13,14 @@ class ExternalApiConnector:
     def check_model_for_make(self):
         response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json')
 
-        is_ok = False
-
         if not response.ok:
-            return is_ok
+            return response.status_code
+
         else:
             try:
-                if response.json()['Results'] and self._vehicle_model in [result['Model_Name'].lower() for result in response.json()['Results']]:
-                    is_ok = True
-                return is_ok
+                return True if response.json()['Results'] and \
+                               self._vehicle_model in \
+                               [result['Model_Name'].lower() for result in response.json()['Results']] else False
 
             except json.decoder.JSONDecodeError:
-                return is_ok
+                return False

@@ -6,23 +6,23 @@ from rest_framework import (
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 
-from cars.serializers import CarSerializer
 from cars.models import Car
+from cars.serializers import CarSerializer
 from common.external_api import ExternalApiConnector
 
 
 class CarViewSet(viewsets.ModelViewSet):
-
     serializer_class = CarSerializer
-    queryset = Car.objects.all()
+    queryset = Car.objects.all().order_by('id')
     http_method_names = ['get', 'post']
 
     def create(self, request, *args, **kwargs):
         connector = ExternalApiConnector(make=str(self.request.POST.get('make')).lower(),
                                          vehicle_model=str(self.request.POST.get('model')).lower())
 
-        if connector.check_model_for_make() == status.HTTP_503_SERVICE_UNAVAILABLE:
-            return Response(status=status.HTTP_503_SERVICE_UNAVAILABLE, data={'error': 'External Api unavailable.'})
+        if connector.check_model_for_make() is not bool:
+            status_code = connector.check_model_for_make()
+            return Response(status=status_code, data={'message': f'External API responded with a status of {status_code}'})
 
         elif connector.check_model_for_make():
             serializer = self.get_serializer(data=request.data)
@@ -39,7 +39,6 @@ class CarViewSet(viewsets.ModelViewSet):
         return Response(response, status=status.HTTP_403_FORBIDDEN)
 
 
-class CarSortedBydPopularityView(ListAPIView):
-
+class CarSortedBydPopularityListApiView(ListAPIView):
     serializer_class = CarSerializer
     queryset = Car.objects.annotate(count=Count('rate')).order_by('-count')
