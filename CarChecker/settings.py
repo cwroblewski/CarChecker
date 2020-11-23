@@ -24,7 +24,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
 
 DEBUG = int(os.environ.get('DEBUG', default=0))
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'powerful-oasis-83097.herokuapp.com' ]
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'intense-ravine-02428.herokuapp.com']
 
 
 # Application definition
