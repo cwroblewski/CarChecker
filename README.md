@@ -15,8 +15,8 @@ POST /rate/
 
 GET /cars
 * Should fetch list of all cars already present in application database with their current average rate an number of rates
-GET /popular
 
+GET /popular
 * Should return top cars already present in the database ranking based on number of rates (not average rate values, it's important!)
 
 SETUP:
