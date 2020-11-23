@@ -1,5 +1,5 @@
 import json
-
+from rest_framework import status
 import requests
 
 
@@ -11,10 +11,12 @@ class ExternalApiConnector:
         self._vehicle_model = vehicle_model
 
     def check_model_for_make(self):
-        response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json')
-
-        if not response.ok:
-            return response
+        try:
+            response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json')
+            if not response.ok:
+                return response.status_code
+        except requests.exceptions.ConnectionError:
+            return status.HTTP_503_SERVICE_UNAVAILABLE
 
         else:
             try:

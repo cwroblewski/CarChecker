@@ -22,10 +22,8 @@ class CarViewSet(viewsets.ModelViewSet):
                                          vehicle_model=str(self.request.POST.get('model')).lower())
 
         if connector.check_model_for_make() is not bool:
-            try:
-                status_code = str(connector.check_model_for_make())
-            except TypeError:
-                status_code = status.HTTP_503_SERVICE_UNAVAILABLE
+            status_code = connector.check_model_for_make()
+
             return Response(status=status_code, data={'message': f'External API responded with a status of {status_code}'})
 
         elif connector.check_model_for_make():

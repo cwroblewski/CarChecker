@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('SECRET_KEY', default='foo')
 
-DEBUG = int(os.environ.get('DEBUG', default=0))
+DEBUG = int(os.environ.get('DEBUG', default=True))
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1', 'intense-ravine-02428.herokuapp.com']
 
