@@ -14,7 +14,7 @@ class ExternalApiConnector:
         try:
             response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json', timeout=5)
             if not response.ok:
-                return response.status_code
+                return status.HTTP_503_SERVICE_UNAVAILABLE
         except requests.exceptions.ConnectionError:
             return status.HTTP_503_SERVICE_UNAVAILABLE
         except requests.exceptions.ReadTimeout:
@@ -22,9 +22,9 @@ class ExternalApiConnector:
 
         else:
             try:
-                return True if response.json()['Results'] and \
+                return status.HTTP_200_OK if response.json()['Results'] and \
                                self._vehicle_model in \
                                [result['Model_Name'].lower() for result in response.json()['Results']] else False
 
             except json.decoder.JSONDecodeError:
-                return False
+                return status.HTTP_404_NOT_FOUND
