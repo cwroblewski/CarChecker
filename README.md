@@ -3,13 +3,13 @@ Heroku: https://intense-ravine-02428.herokuapp.com
 
 Functionalities
 
-POST /cars
+POST /cars/
 * Request body contain car make (key = "make") and model name (key = "model")
 * Based on this data, its existence ischecked here https://vpic.nhtsa.dot.gov/api/ (in case of https://vpic.nhtsa.dot.gov/api/ is unavailable you will receive appropriate information)
 * If the car doesn't exist - return an error
 * If the car exists - it should be saved in the database
 
-POST /rate
+POST /rate/
 * Add a rate for a car from 1 to 5
 * Request body contain car PrimaryKey (key = "car") and rate (key = "rate")
 GET /cars
