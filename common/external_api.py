@@ -12,10 +12,12 @@ class ExternalApiConnector:
 
     def check_model_for_make(self):
         try:
-            response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json')
+            response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json', timeout=5)
             if not response.ok:
                 return response.status_code
         except requests.exceptions.ConnectionError:
+            return status.HTTP_503_SERVICE_UNAVAILABLE
+        except requests.exceptions.ReadTimeout:
             return status.HTTP_503_SERVICE_UNAVAILABLE
 
         else:
