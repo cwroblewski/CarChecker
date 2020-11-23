@@ -18,6 +18,7 @@ GET /popular
 * Should return top cars already present in the database ranking based on number of rates (not average rate values, it's important!)
 
 SETUP:
+
 requirements:
 *Docker, docker-compose
 
