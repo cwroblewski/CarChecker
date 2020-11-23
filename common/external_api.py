@@ -24,7 +24,7 @@ class ExternalApiConnector:
             try:
                 return status.HTTP_200_OK if response.json()['Results'] and \
                                self._vehicle_model in \
-                               [result['Model_Name'].lower() for result in response.json()['Results']] else False
+                               [result['Model_Name'].lower() for result in response.json()['Results']] else status.HTTP_404_NOT_FOUND
 
             except json.decoder.JSONDecodeError:
                 return status.HTTP_404_NOT_FOUND
