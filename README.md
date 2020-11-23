@@ -12,9 +12,11 @@ POST /cars/
 POST /rate/
 * Add a rate for a car from 1 to 5
 * Request body contain car PrimaryKey (key = "car") and rate (key = "rate")
+
 GET /cars
 * Should fetch list of all cars already present in application database with their current average rate an number of rates
 GET /popular
+
 * Should return top cars already present in the database ranking based on number of rates (not average rate values, it's important!)
 
 SETUP:
