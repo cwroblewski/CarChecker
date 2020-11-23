@@ -14,7 +14,7 @@ class ExternalApiConnector:
         response = requests.get(f'{self._url}vehicles/GetModelsForMake/{self._make}?format=json')
 
         if not response.ok:
-            return response.status_code
+            return response
 
         else:
             try:

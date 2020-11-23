@@ -64,13 +64,16 @@ class CarCheckApiTests(APITestCase):
         """
 
         for car in self.car_data:
-            response = self.client.post(self.car_url, car)
+            try:
+                response = self.client.post(self.car_url, car)
+                self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-            self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+                new_car = Car.objects.get(make=car['make'], model=car['model'])
+                self.assertEqual(new_car.make, car['make'])
+                self.assertEqual(new_car.model, car['model'])
 
-            new_car = Car.objects.get(make=car['make'], model=car['model'])
-            self.assertEqual(new_car.make, car['make'])
-            self.assertEqual(new_car.model, car['model'])
+            except TypeError:
+                self.assertRaises(TypeError, msg='External Api Error')
 
         self.assertEqual(Car.objects.count(), 3)
 
@@ -90,8 +93,11 @@ class CarCheckApiTests(APITestCase):
         """
 
         for data in self.invalid_car_data:
-            response = self.client.post(self.car_url, data)
-            self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+            try:
+                response = self.client.post(self.car_url, data)
+                self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+            except TypeError:
+                self.assertRaises(TypeError, msg='External Api Error')
 
     def test_create_rate(self):
         """

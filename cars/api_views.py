@@ -12,6 +12,7 @@ from common.external_api import ExternalApiConnector
 
 
 class CarViewSet(viewsets.ModelViewSet):
+
     serializer_class = CarSerializer
     queryset = Car.objects.all().order_by('id')
     http_method_names = ['get', 'post']
@@ -21,7 +22,10 @@ class CarViewSet(viewsets.ModelViewSet):
                                          vehicle_model=str(self.request.POST.get('model')).lower())
 
         if connector.check_model_for_make() is not bool:
-            status_code = connector.check_model_for_make()
+            try:
+                status_code = str(connector.check_model_for_make())
+            except TypeError:
+                status_code = status.HTTP_503_SERVICE_UNAVAILABLE
             return Response(status=status_code, data={'message': f'External API responded with a status of {status_code}'})
 
         elif connector.check_model_for_make():
