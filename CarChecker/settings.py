@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cars.apps.CarsConfig',
-    'rate.apps.RateConfig'
+    'rate.apps.RateConfig',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [

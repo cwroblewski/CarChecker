@@ -18,7 +18,7 @@ class ExternalApiConnector:
         except requests.exceptions.ConnectionError:
             return status.HTTP_503_SERVICE_UNAVAILABLE
         except requests.exceptions.ReadTimeout:
-            return status.HTTP_503_SERVICE_UNAVAILABLE
+            return status.HTTP_408_REQUEST_TIMEOUT
 
         else:
             try:

@@ -23,9 +23,8 @@ class CarViewSet(viewsets.ModelViewSet):
 
         check_function = connector.check_model_for_make()
 
-        if check_function == status.HTTP_503_SERVICE_UNAVAILABLE:
-            status_code = connector.check_model_for_make()
-            return Response(status=status_code, data={'message': f'External API responded with a status of {status_code}'})
+        if check_function in [status.HTTP_503_SERVICE_UNAVAILABLE, status.HTTP_408_REQUEST_TIMEOUT]:
+            return Response(status=check_function, data={'message': f'External API responded with a status of {check_function}'})
 
         elif check_function == status.HTTP_200_OK:
             serializer = self.get_serializer(data=request.data)
