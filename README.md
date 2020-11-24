@@ -25,7 +25,6 @@ requirements:
 *Docker, docker-compose
 
 * clone this repository to an empty directory
-* open your console and type "docker-compose build web"
 * after it is built type "docker-compose up" - Now CarChecker is running locally
 
 TEST:
